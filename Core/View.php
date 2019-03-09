@@ -24,7 +24,14 @@ class View
       $loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/views/'.$this->viewController);
       $twig = new \Twig_Environment($loader);
     }
-    echo $twig->render($template.'.twig', $args);
+    $args['content']= $twig->render($template.'.twig', $args);
+
+    $loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/views/');
+    $twig = new \Twig_Environment($loader);
+
+    $args['user'] = SITE::$app->user;
+
+    echo $twig->render('layout.twig', $args);
   }
 
   public function setControllerViewPath($controllerName){

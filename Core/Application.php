@@ -7,6 +7,7 @@
 namespace Core;
 
 use App\controllers\MainController;
+use App\model\User;
 
 class Application
 {
@@ -14,10 +15,11 @@ class Application
 
   public $app;
 
-  public $url; //адрес страницы
   public $db; //базаданных
   public $helper; //вспомогательные функции
   public $view; //отрисовщик страниц
+  public $user; //польователь в системе
+  public $request; //данные запроса
 
   public function __construct($config)
   {
@@ -25,7 +27,7 @@ class Application
 
     $this->config = $config;
 
-    $this->url = trim($_SERVER['REQUEST_URI'],'/');
+    $this->request = new Request();
     define("ROOT", dirname($_SERVER['DOCUMENT_ROOT']));
     define("DEBUG", empty($config['debug'])?false:$config['debug']);
   }
@@ -41,10 +43,6 @@ class Application
     set_exception_handler('Core\Error::exceptionHandler');
 
     //Старт сессии
-    if (!isset($this->config['sessionName'])) {
-      $this->config['sessionName'] = $_SERVER['REMOTE_ADDR'];
-    }
-    session_name($this->config['sessionName']);
     session_start();
 
     //Загрузка вспомогательных функций
@@ -53,8 +51,11 @@ class Application
     //Загрузка рендера
     $this->view = new View();
 
+    //Грузим данные о юзере
+    $this->user = new User();
+
     //Обработка адреса
-    $route = explode('/', $this->url);
+    $route = explode('/', $this->request->url);
     $controllerName = $this->helper->makeName($route[0]).'Controller';
 
     if (
@@ -84,5 +85,10 @@ class Application
     }else{
       $controller->$action();
     }
+  }
+
+  public function goHome(){
+    header('Location: /');
+    exit;
   }
 }
