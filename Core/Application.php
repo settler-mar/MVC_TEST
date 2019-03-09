@@ -7,7 +7,8 @@
 namespace Core;
 
 use App\controllers\MainController;
-use App\model\User;
+use App\models\User;
+use ActiveRecord;
 
 class Application
 {
@@ -44,6 +45,16 @@ class Application
 
     //Старт сессии
     session_start();
+
+    //базаданных
+    $db_config = $this->config['db'];
+    $this->db = ActiveRecord\Config::instance();
+    $this->db->set_model_directory(ROOT.'/App/models');
+    $this->db->set_connections(
+        array(
+            'db' => $db_config['type'].'://'.$db_config['user'].':'.$db_config['password'].'@'.$db_config['host'].'/'.$db_config['db_name']
+        )
+    );
 
     //Загрузка вспомогательных функций
     $this->helper = new Helper();

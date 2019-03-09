@@ -7,6 +7,7 @@ class Request {
   public $url;
   public $params = [];
   public $page = 1;
+  public $order = '';
 
   public function __construct()
   {
@@ -27,6 +28,11 @@ class Request {
 
     if(preg_match('/^(id:)([0-9]*)/i', $url[count($url)-1])){
       $this->params['id'] = intval(str_replace('id:','',$url[count($url)-1]));
+      unset($url[count($url)-1]);
+    }
+
+    if(preg_match('/^(order:)([a-z0-9]*)/i', $url[count($url)-1])){
+      $this->order = str_replace('order:','',$url[count($url)-1]);
       unset($url[count($url)-1]);
     }
 

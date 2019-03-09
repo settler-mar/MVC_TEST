@@ -1,10 +1,33 @@
-<section id="task_list">
-  <div class="container">
-    <h2>Текущие задания</h2>
-    <div class="row">
-      <div class="col-4 task_list-item">
-hhhh
+{% if tasks %}
+  <section id="task_list">
+    <div class="container">
+      <h2>Текущие задания</h2>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="dropdown show">
+            Сортировка:
+            <a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ orderName }}
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {% for key,order in orderList %}
+                <a class="dropdown-item" href="/{{ key?('order:'~key):'' }}">{{ order }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row">
+        {% for task in tasks %}
+          <div class="col-4 task_list-item">
+            <h3>{{ task.name }}</h3>
+          </div>
+        {% endfor %}
       </div>
     </div>
-  </div>
-</section>
+  </section>
+{% endif %}
