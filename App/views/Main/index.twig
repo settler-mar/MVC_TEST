@@ -28,6 +28,19 @@
           </div>
         {% endfor %}
       </div>
+
+      {% if pagination %}
+        <hr>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item {{ pagination.page==1?'disabled':'' }}"><a class="page-link" href="{{ pagination.prev_link }}">Назад</a></li>
+            {% for page in 1..pagination.total %}
+              <li class="page-item {{ pagination.page==page?'active':'' }}"><a class="page-link" href="{{ pagination.url }}{{ (page==1?'/':'/page_'~page) }}">{{ page }}</a></li>
+            {% endfor %}
+            <li class="page-item {{ pagination.page==pagination.total?'disabled':'' }}"><a class="page-link" href="{{ pagination.next_link }}">Вперед</a></li>
+          </ul>
+        </nav>
+      {% endif %}
     </div>
   </section>
 {% endif %}

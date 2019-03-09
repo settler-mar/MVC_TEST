@@ -20,7 +20,7 @@ class Request {
     }
 
     //Забираем из адреса номер страницы и id
-    $url = explode('?',$url[0]);
+    $url = explode('/',$url[0]);
     if(preg_match('/^(page_)([0-9]*)/i', $url[count($url)-1])){
       $this->page = intval(str_replace('page_','',$url[count($url)-1]));
       unset($url[count($url)-1]);

@@ -33,6 +33,7 @@ class Tasks extends ActiveRecord\Model
 
     $orderList = self::getOrderList();
     if (!isset($orderList[SITE::$app->request->order])) {
+      d(SITE::$app->request->order);
       throw new \Exception("Page not found");
     }
     if (!empty(SITE::$app->request->order)) {
@@ -57,10 +58,15 @@ class Tasks extends ActiveRecord\Model
       return false;
     }
 
+    $url = SITE::$app->request->url .
+        (empty(SITE::$app->request->order) ? '' : ('/order:' . SITE::$app->request->order));
+    $page = SITE::$app->request->page;
     return [
-        'url' => SITE::$app->request->url,
-        'order' => SITE::$app->request->order,
-        'total' => $totalPage
+        'url' => $url,
+        'page' => $page,
+        'total' => $totalPage,
+        'prev_link' => ($page>2)?$url.'/page_'.($page-1):'/',
+        'next_link' => $url.'/page_'.($page+1),
     ];
   }
 }
