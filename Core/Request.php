@@ -39,7 +39,11 @@ class Request {
     $this->url = implode('/',$url);
   }
 
-  public function post($name){
+  public function post($name = false){
+    if($name===false){
+      return $_POST;
+    }
+
     if(!isset($_POST[$name])){
       return null;
     };

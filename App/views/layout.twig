@@ -29,9 +29,9 @@
 
       <div class="navbar-nav navbar-right navbar-text">
         {% if user.isGuest %}
-          <a class="nav-link" href="/login">Авторизироваться</a>
+          <a class="nav-link" href="/user/login">Авторизироваться</a>
         {% else %}
-          Здравствуй, {{ user.name }}! <a href="/logout">Выход</a>
+          Здравствуй, {{ user.name }}! <a href="/user/logout">Выход</a>
         {% endif %}
       </div>
     </div>

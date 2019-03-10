@@ -73,7 +73,7 @@ class Application
         $controllerName!=="MainController" &&
         file_exists(ROOT . '/App/controllers/' . $controllerName . '.php')
     ) {
-      require(ROOT . '/App/controllers/' . $controllerName . '.php');
+      $controllerName = 'App\controllers\\'.$controllerName;
       $controller = new $controllerName();
 
       $action = 'action'.(empty($route[1])?'Index':$this->helper->makeName($route[1]));

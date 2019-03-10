@@ -1,13 +1,19 @@
 {% if tasks %}
   <section id="task_list">
     <div class="container">
-      <h2>Текущие задания</h2>
+      <h2>
+        Текущие задания
+        {% if canCreate %}
+          <a href="/tasks/create" class="btn btn-warning">Создать</a>
+        {% endif %}
+      </h2>
 
       <div class="row">
         <div class="col-12">
           <div class="dropdown show">
             Сортировка:
-            <a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ orderName }}
             </a>
 
@@ -24,7 +30,23 @@
       <div class="row">
         {% for task in tasks %}
           <div class="col-4 task_list-item">
-            <h3>{{ task.name }}</h3>
+            {% if canEdit %}
+              <a href="/tasks/updete/id:{{ task.id }}" class="btn btn-warning float-right">Изменить</a>
+            {% endif %}
+            <div>
+              <b>Имя:</b>
+              <i>{{ task.name }}</i>
+            </div>
+            <div>
+              <b>email:</b>
+              <i>{{ task.email }}</i>
+            </div>
+            <div>
+              <b>Статус:</b>
+              <i>{{ task.status?'Выполнео':'в работе' }}</i>
+            </div>
+            <hr>
+            {{ task.text }}
           </div>
         {% endfor %}
       </div>
@@ -33,11 +55,17 @@
         <hr>
         <nav aria-label="Page navigation example">
           <ul class="pagination">
-            <li class="page-item {{ pagination.page==1?'disabled':'' }}"><a class="page-link" href="{{ pagination.prev_link }}">Назад</a></li>
+            <li class="page-item {{ pagination.page==1?'disabled':'' }}">
+              <a class="page-link" href="{{ pagination.prev_link }}">Назад</a>
+            </li>
             {% for page in 1..pagination.total %}
-              <li class="page-item {{ pagination.page==page?'active':'' }}"><a class="page-link" href="{{ pagination.url }}{{ (page==1?'/':'/page_'~page) }}">{{ page }}</a></li>
+              <li class="page-item {{ pagination.page==page?'active':'' }}">
+                <a class="page-link" href="{{ pagination.url }}{{ (page==1?'/':'/page_'~page) }}">{{ page }}</a>
+              </li>
             {% endfor %}
-            <li class="page-item {{ pagination.page==pagination.total?'disabled':'' }}"><a class="page-link" href="{{ pagination.next_link }}">Вперед</a></li>
+            <li class="page-item {{ pagination.page==pagination.total?'disabled':'' }}">
+              <a class="page-link" href="{{ pagination.next_link }}">Вперед</a>
+            </li>
           </ul>
         </nav>
       {% endif %}
