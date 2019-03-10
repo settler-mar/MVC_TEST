@@ -65,7 +65,7 @@ class Tasks extends Model
     $count = self::count();
     $totalPage = ceil($count / self::LIMIT);
 
-    if (SITE::$app->request->page > $totalPage) {
+    if ($totalPage>0 && SITE::$app->request->page > $totalPage) {
       throw new \Exception("Page not found");
     }
 
