@@ -38,6 +38,9 @@ class Application
    */
   public function run()
   {
+    //Загрузка рендера
+    $this->view = new View();
+
     //Обработчики ошибок
     error_reporting(E_ALL);
     set_error_handler('Core\Error::errorHandler');
@@ -58,9 +61,6 @@ class Application
 
     //Загрузка вспомогательных функций
     $this->helper = new Helper();
-
-    //Загрузка рендера
-    $this->view = new View();
 
     //Грузим данные о юзере
     $this->user = new User();
