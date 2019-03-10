@@ -29,7 +29,7 @@ class Application
     $this->config = $config;
 
     $this->request = new Request();
-    define("ROOT", dirname($_SERVER['DOCUMENT_ROOT']));
+    define("ROOT", dirname(dirname(__FILE__)));
     define("DEBUG", empty($config['debug'])?false:$config['debug']);
   }
 
